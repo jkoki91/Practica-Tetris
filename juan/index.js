@@ -43,7 +43,6 @@ function drawBoard(containerClass,width,height){
     containerClass.classList.add('main') 
     for (let i = 0; i < width*height; i++) {
         generateBoardBlock()
-        squares.push(generateBoardBlock())
     }
 }
 
