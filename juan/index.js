@@ -46,7 +46,7 @@ function drawBoard(containerClass, width, height) {
     }
 }
 
-console.log(squares)
+// console.log(squares)
 
 drawBoard(main, 10, 20)
 const tetrominoI = [[0, boardWidth, boardWidth * 2, boardWidth * 3], [0, 1, 2, 3], [0, boardWidth, boardWidth * 2, boardWidth * 3], [0, 1, 2, 3]];
@@ -78,13 +78,13 @@ function generateRandomTetromine() {
 let current = tetrominos[random][currentRotation];
 
 
-console.log(currentPosition);
+// console.log(currentPosition);
 
 generateRandomTetromine()
 
-console.log(currentTetrominoe)
+// console.log(currentTetrominoe)
 
-let squaresSelection = document.querySelectorAll('.divGrid');
+let squaresSelection = document.querySelectorAll('.boardContainer > div');
 
 function drawTetrominoeInMainBoard() {
     currentTetrominoe.piece[0].forEach(index => {
@@ -100,6 +100,18 @@ function undrawTetrominoeInMainBoard() {
         squaresSelection[currentPosition + index].classList.remove('tetronimoDrawed');
     });
 }
+
+for (let i = 0; i < 10; i++) {
+    const taken = document.createElement('div')
+    taken.classList.add('taken')
+    boardContainer.appendChild(taken)
+};
+
+squaresSelection = document.querySelectorAll('.boardContainer > div')
+
+// let squaresTaken = document.querySelectorAll('.taken .d');
+
+// console.log(squaresTaken)
 
 timerId = setInterval(moveDown, 100)
 
@@ -120,8 +132,10 @@ function freeze() {
         currentPosition = 4;
         drawTetrominoeInMainBoard()
     }
-
 }
+
+
+
 
 // function drawTetrominoeInMiniBoard(tetrominoe)
 

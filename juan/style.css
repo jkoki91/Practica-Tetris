@@ -37,6 +37,7 @@ body{
     border: 2px solid black;
     gap: 4px;
     padding: 2px;
+    margin-bottom: 50px;
 }
 
 .displayContainer{
@@ -67,4 +68,10 @@ body{
 
 .tetronimoDrawed{
     opacity: 1;
+}
+
+.taken{
+    width: 30px;
+    height: 30px;
+    /* margin-top: 2px; */
 }
