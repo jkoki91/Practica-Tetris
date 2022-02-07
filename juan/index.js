@@ -38,38 +38,47 @@ function generateBoardBlock() {
     divGrid.appendChild(divGridSon)
 }
 
-function drawBoard(containerClass,width,height){
+function drawBoard(containerClass, width, height) {
     document.body.appendChild(containerClass)
-    containerClass.classList.add('main') 
-    for (let i = 0; i < width*height; i++) {
+    containerClass.classList.add('main')
+    for (let i = 0; i < width * height; i++) {
         generateBoardBlock()
     }
 }
 
 console.log(squares)
 
-drawBoard(main,10,20)
-const tetrominoI = [[0, boardWidth, boardWidth*2, boardWidth*3], [0, 1, 2, 3], [0, boardWidth, boardWidth*2, boardWidth*3], [0, 1, 2, 3]];
-const tetrominoL = [[0, 1, 2, boardWidth], [0, 1, boardWidth+1, boardWidth*2+1], [2, boardWidth, boardWidth+1, boardWidth+2], [0, boardWidth, boardWidth*2, boardWidth*2+1]];
-const tetrominoS = [[1, 2, boardWidth, boardWidth+1], [0, boardWidth, boardWidth+1, boardWidth*2+1]];
-const tetrominoZ = [[0, 1, boardWidth+1, boardWidth+2], [1, boardWidth, boardWidth+1, boardWidth*2]];
-const tetrominoJ = [[0, 1, 2, boardWidth+2], [1, boardWidth+1, boardWidth*2, boardWidth*2+1], [0, boardWidth, boardWidth+1, boardWidth+2], [0, 1, boardWidth, boardWidth*2]];
-const tetrominoO = [[0, 1, boardWidth, boardWidth+1]];
-const tetrominoT = [[0, 1, 2, boardWidth+1], [1, boardWidth, boardWidth+1, boardWidth*2+1], [1, boardWidth, boardWidth+1, boardWidth+2], [0, boardWidth, boardWidth+1, boardWidth*2]];
+drawBoard(main, 10, 20)
+const tetrominoI = [[0, boardWidth, boardWidth * 2, boardWidth * 3], [0, 1, 2, 3], [0, boardWidth, boardWidth * 2, boardWidth * 3], [0, 1, 2, 3]];
+const tetrominoL = [[0, 1, 2, boardWidth], [0, 1, boardWidth + 1, boardWidth * 2 + 1], [2, boardWidth, boardWidth + 1, boardWidth + 2], [0, boardWidth, boardWidth * 2, boardWidth * 2 + 1]];
+const tetrominoS = [[1, 2, boardWidth, boardWidth + 1], [0, boardWidth, boardWidth + 1, boardWidth * 2 + 1]];
+const tetrominoZ = [[0, 1, boardWidth + 1, boardWidth + 2], [1, boardWidth, boardWidth + 1, boardWidth * 2]];
+const tetrominoJ = [[0, 1, 2, boardWidth + 2], [1, boardWidth + 1, boardWidth * 2, boardWidth * 2 + 1], [0, boardWidth, boardWidth + 1, boardWidth + 2], [0, 1, boardWidth, boardWidth * 2]];
+const tetrominoO = [[0, 1, boardWidth, boardWidth + 1]];
+const tetrominoT = [[0, 1, 2, boardWidth + 1], [1, boardWidth, boardWidth + 1, boardWidth * 2 + 1], [1, boardWidth, boardWidth + 1, boardWidth + 2], [0, boardWidth, boardWidth + 1, boardWidth * 2]];
 
-const tetrominos = [tetrominoI,tetrominoL,tetrominoS,tetrominoZ,tetrominoJ,tetrominoO,tetrominoT];
+const tetrominos = [tetrominoI, tetrominoL, tetrominoS, tetrominoZ, tetrominoJ, tetrominoO, tetrominoT];
 
-let currentTetrominoe 
+let currentPosition = 4;
+let currentRotation = 0;
+let random = Math.floor(Math.random() * 7);
 
-function generateRandomTetromine(){
-    let tetrominoe ={
-        positionAtTetrominoeList: Math.floor(Math.random()*7),
-        piece: tetrominos[Math.floor(Math.random()*7)],
+let currentTetrominoe
+
+function generateRandomTetromine() {
+    let tetrominoe = {
+        positionAtTetrominoeList: random,
+        piece: tetrominos[random],
         position: 4,
         rotation: 0
     };
     return currentTetrominoe = tetrominoe;
 }
+
+let current = tetrominos[random][currentRotation];
+
+
+console.log(currentPosition);
 
 generateRandomTetromine()
 
@@ -79,19 +88,40 @@ let squaresSelection = document.querySelectorAll('.divGrid');
 
 function drawTetrominoeInMainBoard() {
     currentTetrominoe.piece[0].forEach(index => {
-        squaresSelection[4+index].classList.add('tetronimoDrawed')        
+        squaresSelection[currentPosition + index].classList.add('tetronimoDrawed')
     });
 }
 console.log(squaresSelection);
 
 drawTetrominoeInMainBoard()
 
-function undrawTetrominoeInMainBoard(tetrominoe) {
-
+function undrawTetrominoeInMainBoard() {
+    currentTetrominoe.piece[0].forEach(index => {
+        squaresSelection[currentPosition + index].classList.remove('tetronimoDrawed');
+    });
 }
 
+timerId = setInterval(moveDown, 100)
 
-// function undrawTetrominoeInMainBoard()
+function moveDown() {
+    undrawTetrominoeInMainBoard()
+    currentPosition += boardWidth;
+    drawTetrominoeInMainBoard();
+    freeze();
+}
+
+moveDown()
+
+function freeze() {
+    if (current.some(index => squaresSelection[currentPosition + index + boardWidth].classList.contains('taken'))) {
+        current.forEach(index => squaresSelection[currentPosition + index].classList.add('taken'))
+        random = Math.floor(Math.random() * 7);
+        current = tetrominos[random][currentRotation];
+        currentPosition = 4;
+        drawTetrominoeInMainBoard()
+    }
+
+}
 
 // function drawTetrominoeInMiniBoard(tetrominoe)
 
